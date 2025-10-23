@@ -18,24 +18,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notEmpty: {
-          msg: "Title must not be empty"
-        },
-        notNull: {
-          msg: "Title is required"
-        },
+        notEmpty: { msg: "Title must not be empty" },
+        notNull: { msg: "Title is required" },
       },
     },
     author: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notEmpty: {
-          msg: "Author must not be empty"
-        },
-        notNull: {
-          msg: "Author is required"
-        },
+        notEmpty: { msg: "Author must not be empty"},
+        notNull: { msg: "Author is required" },
       },
     },
     genre: {
@@ -46,9 +38,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: true,
       validate: {
-        isInt: {
-          msg: "Year must be an integer"
-        },
+        isInt: { msg: "Year must be an integer" },
+      },
     },
   }, {
     sequelize,
