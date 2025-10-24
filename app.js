@@ -27,20 +27,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-// catch 404 and forward to error handler
+// Handle 404 - Page Not Found
 app.use(function(req, res, next) {
-  next(createError(404));
+  const error = new Error('Sorry, the page you are looking for does not exist.');
+  error.status = 404;
+  console.log(`${error.status} - ${error.message}`);
+  res.status(404).render('page-not-found', { error });
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// Global Error Handler
+app.use(function(error, req, res, next) {
+  error.status = error.status || 500;
+  error.message = error.message || 'Sorry! There was an unexpected error on the server.';
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  console.log(`${error.status} - ${error.message}`);
+
+  if (error.status === 404) {
+    res.status(404).render('page-not-found', { error });
+  } else {
+    res.status(error.status).render('error', { error });
+  }
 });
 
 // Test the database connection
