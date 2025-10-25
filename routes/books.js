@@ -17,4 +17,22 @@ router.get('/new', (req, res) => {
   res.render('new-book', { book: {} });
 });
 
+// POST /books - Create a new book
+router.post('/new', async (req, res, next) => {
+  try {
+    await Book.create(req.body);
+    res.redirect('/books');
+  } catch (error) {
+    if (error.name === "SequelizeValidationError") {
+      res.render('new-book', { 
+        book: Book.build(req.body), 
+        errors: error.errors,
+        title: 'New Book'
+      });
+    } else {
+      next(error);
+    }
+  }
+});
+
 module.exports = router;
