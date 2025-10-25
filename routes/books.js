@@ -12,4 +12,9 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+// Get /new - Show form to create a new book
+router.get('/new', (req, res) => {
+  res.render('new-book', { book: {} });
+});
+
 module.exports = router;
