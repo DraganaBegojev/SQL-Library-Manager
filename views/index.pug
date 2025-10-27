@@ -1,28 +1,29 @@
 extends layout
 
 block content
-  h1 Books
-  // search form
-  form(action='/books', method='GET')
-    input(type='text' name='search' placeholder='Search books...', value=searchQuery)
-    button(type="submit") Search
+  .books-container
+    h1 Books
+    // search form
+    form(action='/books', method='GET')
+      input(type='text' name='search' placeholder='Search books...', value=searchQuery)
+      button(type="submit") Search
 
 
-  p
-    a.button(href="/books/new") Create New Book
-  table
-    thead
-      tr
-        th Title
-        th Author
-        th Genre
-        th Year
-    tbody
-      each book in books
+    p
+      a.button(href="/books/new") Create New Book
+    table
+      thead
         tr
-          td
-            a(href=`/books/${book.id}`)= book.title
-          td= book.author
-          td= book.genre
-          td= book.year
+          th Title
+          th Author
+          th Genre
+          th Year
+      tbody
+        each book in books
+          tr
+            td
+              a(href=`/books/${book.id}`)= book.title
+            td= book.author
+            td= book.genre
+            td= book.year
 

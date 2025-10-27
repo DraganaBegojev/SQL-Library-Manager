@@ -95,3 +95,56 @@ input[type=text] {
 .error {
   color: rgb(236, 15, 15);
 }
+
+/* === BOOKS CONTAINER === */
+.books-container {
+  max-width: 800px; /* ili 900px ako hoćeš šire */
+  margin: 0 auto;
+}
+
+/* === SEARCH BAR === */
+.books-container form[action="/books"] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.books-container form[action="/books"] input[type="text"] {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-left: 0 !important;
+}
+
+.books-container form[action="/books"] button {
+  padding: 8px 14px;
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.books-container form[action="/books"] button:hover {
+  background-color: #004c99;
+}
+
+/* === TABLE === */
+.books-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.books-container th,
+.books-container td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
