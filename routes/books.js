@@ -81,5 +81,22 @@ router.post('/:id', async (req, res, next) => {
   }
 });
 
+// POST /:id/delete - Delete a specific book
+router.post('/:id/delete', async (req, res, next) => {
+  try {
+    const book = await Book.findByPk(req.params.id);
+    if (book) {
+      await book.destroy();
+      res.redirect('/books');
+    } else {
+      const err = new Error('Book Not Found');
+      err.status = 404;
+      next(err);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 
 module.exports = router;
