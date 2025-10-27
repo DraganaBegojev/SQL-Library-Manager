@@ -35,4 +35,51 @@ router.post('/new', async (req, res, next) => {
   }
 });
 
+// GET /:id - Show details of a specific book
+router.get('/:id', async (req, res, next) => {
+  try {
+    const book = await Book.findByPk(req.params.id);
+    if (book) {
+      res.render('update-book', { 
+        title: 'Update Book',
+        book 
+      });
+    } else {
+      const err = new Error('Book Not Found');
+      err.status = 404;
+      next(err);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+// POST /:id - Update a specific book
+// POST /books/:id - Updates book info in the database
+router.post('/:id', async (req, res, next) => {
+  try {
+    const book = await Book.findByPk(req.params.id);
+    if (book) {
+      await book.update(req.body);
+      res.redirect('/books');
+    } else {
+      const err = new Error('Book Not Found');
+      err.status = 404;
+      next(err);
+    }
+  } catch (error) {
+    if (error.name === 'SequelizeValidationError') {
+      const book = await Book.findByPk(req.params.id);
+      res.render('update-book', { 
+        book, 
+        errors: error.errors, 
+        title: 'Update Book' 
+      });
+    } else {
+      next(error);
+    }
+  }
+});
+
+
 module.exports = router;
