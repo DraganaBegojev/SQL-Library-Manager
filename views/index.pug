@@ -26,4 +26,18 @@ block content
             td= book.author
             td= book.genre
             td= book.year
+    // pagination controls
+    if totalPages > 1
+      .pagination
+        if currentPage > 1
+          a(href=`/books?page=${currentPage - 1}&search=${searchQuery || ''}`) Previous
+        else
+          span Previous
+        |  
+        span Page #{currentPage} of #{totalPages}
+        |  
+        if currentPage < totalPages
+          a(href=`/books?page=${currentPage + 1}&search=${searchQuery || ''}`) Next
+        else
+          span Next
 

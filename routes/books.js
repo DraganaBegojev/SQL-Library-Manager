@@ -3,29 +3,6 @@ var router = express.Router();
 const { Book } = require('../models');
 const { Op } = require('sequelize');
 
-// GET /books - List all books
-router.get('/', async (req, res, next) => {
-  const searchQuery = req.query.search || ''; // get search query if any
-
-  try {
-    const books = await Book.findAll({
-      where: {
-        [Op.or]: [
-          { title: { [Op.like]: `%${searchQuery}%` } },
-          { author: { [Op.like]: `%${searchQuery}%` } },
-          { genre: { [Op.like]: `%${searchQuery}%` } },
-          { year: { [Op.like]: `%${searchQuery}%` } }
-        ]
-      },
-      order: [['title', 'ASC']]
-    });
-
-    res.render('index', { books, searchQuery });
-  } catch (error) {
-    next(error);
-  }
-});
-
 // Get /new - Show form to create a new book
 router.get('/new', (req, res) => {
   res.render('new-book', { book: {} });
@@ -107,6 +84,42 @@ router.post('/:id/delete', async (req, res, next) => {
       err.status = 404;
       next(err);
     }
+  } catch (error) {
+    next(error);
+  }
+});
+
+// pagination
+
+const ITEMS_PER_PAGE = 10;
+
+router.get('/', async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+  const searchQuery = req.query.search || ''  ;
+
+  try {
+    const { count, rows } = await Book.findAndCountAll({
+      where: {
+        [Op.or]: [
+          { title: { [Op.like]: `%${searchQuery}%` } },
+          { author: { [Op.like]: `%${searchQuery}%` } },
+          { genre: { [Op.like]: `%${searchQuery}%` } },
+          { year: { [Op.like]: `%${searchQuery}%` } }
+        ]
+      },
+      order: [['title', 'ASC']],
+      limit: ITEMS_PER_PAGE,
+      offset: (page - 1) * ITEMS_PER_PAGE
+    });
+
+    const totalPages = Math.ceil(count / ITEMS_PER_PAGE);
+
+    res.render('index', { 
+      books: rows, 
+      currentPage: page, 
+      totalPages, 
+      searchQuery 
+    });
   } catch (error) {
     next(error);
   }

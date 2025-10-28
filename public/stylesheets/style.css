@@ -148,3 +148,25 @@ input[type=text] {
   text-align: left;
 }
 
+/* === PAGINATION === */
+
+.pagination {
+  margin-top: 20px;
+}
+
+.pagination a, .pagination span {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  text-decoration: none;
+  color: #019875;
+}
+
+.pagination span.current {
+  background-color: #019875;
+  color: white;
+  border-color: #019875;
+}
+
